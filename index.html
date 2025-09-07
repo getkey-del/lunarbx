@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Exploit - Coming Soon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 70%);
+            z-index: 1;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        .moon-logo {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+                         0 0 30px rgba(255, 255, 255, 0.5),
+                         0 0 45px rgba(255, 255, 255, 0.3);
+            animation: pulse 3s infinite ease-in-out;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        
+        .soon {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .timer-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin: 1.5rem 0;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dates {
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 1.2rem 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { 
+                transform: translateY(-100px) rotate(720deg); 
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .moon-logo { font-size: 4rem; }
+            .soon { font-size: 1.5rem; }
+            .timer { font-size: 1.3rem; }
+            .dates { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="moon-logo">
+            <i class="fas fa-moon"></i>
+        </div>
+        <h1>Luna Exploit</h1>
+        <div class="soon">Coming Soon....</div>
+        
+        <div class="timer-container">
+            <div class="timer" id="timer">00:00:00:00</div>
+            <div class="dates">08.09.2025 - 20.09.2025</div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="dates" id="progress-text">0% completed</div>
+        </div>
+    </div>
+
+    <script>
+        // Создание частиц для фона
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Случайные свойства для частиц
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Таймер обратного отсчета
+        function updateTimer() {
+            const startDate = new Date('2025-09-08T00:00:00');
+            const endDate = new Date('2025-09-20T00:00:00');
+            const now = new Date();
+            
+            let targetDate, textPrefix;
+            
+            if (now < startDate) {
+                targetDate = startDate;
+                textPrefix = "До начала: ";
+            } else if (now < endDate) {
+                targetDate = endDate;
+                textPrefix = "До окончания: ";
+                
+                // Обновление прогресса
+                const totalDuration = endDate - startDate;
+                const elapsed = now - startDate;
+                const progressPercent = (elapsed / totalDuration) * 100;
+                document.getElementById('progress').style.width = `${progressPercent}%`;
+                document.getElementById('progress-text').textContent = `${progressPercent.toFixed(1)}% completed`;
+            } else {
+                document.getElementById('timer').textContent = "Событие завершено";
+                document.getElementById('progress').style.width = '100%';
+                document.getElementById('progress-text').textContent = '100% completed';
+                return;
+            }
+            
+            const timeLeft = targetDate - now;
+            
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            document.getElementById('timer').textContent = 
+                `${textPrefix}${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Инициализация
+        window.onload = function() {
+            createParticles();
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        };
+    </script>
+</body>
+</html>
